@@ -20,7 +20,9 @@ class Card:
         fn = str(n[2].split('.')[0])
         return v, f, fn
 
-    def show(self):
+    def show(self, pos):
+        cv2.namedWindow(str(self))
+        cv2.moveWindow(str(self), pos[0], pos[1])
         cv2.imshow(str(self), self.png)
     
     def __str__(self):
@@ -45,6 +47,6 @@ if __name__=="__main__":
     deck = Deck(pngs)
 
     for card in deck.get_cards():
-        card.show()
+        card.show(pos=(0, 0))
         cv2.waitKey(0)
         cv2.destroyAllWindows()
