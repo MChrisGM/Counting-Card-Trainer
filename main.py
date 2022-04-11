@@ -8,6 +8,16 @@ cards_table = {
 }
 cards_dir = "./cards"
 
+def pressed_key():
+    while True:
+        k = cv2.waitKey(0)
+        if k == ord('='):
+            return 1
+        elif k == ord('-'):
+            return -1
+        elif k == ord('0'):
+            return 0
+
 class Card:
     def __init__(self, filename):
         self.value, self.face, self.face_name = self.calculate_value(filename)
@@ -23,6 +33,8 @@ class Card:
         cv2.namedWindow(str(self))
         cv2.moveWindow(str(self), pos[0], pos[1])
         cv2.imshow(str(self), self.png)
+    def get_value(self):
+        return self.value
     def __str__(self):
         return str(self.value) + " of "+str(self.face_name)
 
@@ -35,19 +47,42 @@ class Deck:
                 if c.face != 0:
                     self.cards.append(c)
         return
+        
     def get_cards(self):
         return self.cards
+
     def show(self, pos):
         for card in self.get_cards():
             card.show(pos=pos)
             cv2.waitKey(0)
             cv2.destroyAllWindows()
+
     def shuffle(self):
         random.shuffle(self.cards)
+    
+    def practice_recognition(self):
+        score = 0
+        counter = 0
+        for card in self.get_cards():
+            card.show(pos=(0, 0))
+            key = pressed_key()
+            correct = 0
+            if 2<=card.get_value()<=6:
+                correct = 1
+            if 7<=card.get_value()<=9:
+                correct = 0
+            if 10<=card.get_value()<=14:
+                correct = -1
+            if key == correct:
+                score += 1
+            counter += 1
+            print(score,'/',counter)
+            cv2.destroyAllWindows()
+        return
 
 if __name__=="__main__":
     pngs = [(str(f)) for f in listdir(cards_dir) if isfile(join(cards_dir, f))]
     deck = Deck(pngs)
     deck.shuffle()
-    deck.show(pos=(0, 0))
-    
+    # deck.show(pos=(0, 0))
+    deck.practice_recognition()
