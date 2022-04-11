@@ -8,15 +8,15 @@ cards_table = {
 }
 cards_dir = "./cards"
 
-def pressed_key():
+def pressed_key(keys):
     while True:
         k = cv2.waitKey(0)
-        if k == ord('='):
-            return 1
-        elif k == ord('-'):
+        if k == ord(str(keys[2])):
             return -1
-        elif k == ord('0'):
+        elif k == ord(str(keys[1])):
             return 0
+        elif k == ord(str(keys[0])):
+            return 1
 
 class Card:
     def __init__(self, filename):
@@ -47,7 +47,7 @@ class Deck:
                 if c.face != 0:
                     self.cards.append(c)
         return
-        
+
     def get_cards(self):
         return self.cards
 
@@ -60,12 +60,12 @@ class Deck:
     def shuffle(self):
         random.shuffle(self.cards)
     
-    def practice_recognition(self):
+    def practice_recognition(self,minus,zero,plus):
         score = 0
         counter = 0
         for card in self.get_cards():
             card.show(pos=(0, 0))
-            key = pressed_key()
+            key = pressed_key([minus,zero,plus])
             correct = 0
             if 2<=card.get_value()<=6:
                 correct = 1
@@ -76,7 +76,7 @@ class Deck:
             if key == correct:
                 score += 1
             counter += 1
-            print(score,'/',counter)
+            print( "Correct" if key==correct else "Wrong" ,score,'/',counter)
             cv2.destroyAllWindows()
         return
 
@@ -85,4 +85,4 @@ if __name__=="__main__":
     deck = Deck(pngs)
     deck.shuffle()
     # deck.show(pos=(0, 0))
-    deck.practice_recognition()
+    deck.practice_recognition(8,9,0)
