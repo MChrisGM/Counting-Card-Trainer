@@ -85,4 +85,4 @@ if __name__=="__main__":
     deck = Deck(pngs)
     deck.shuffle()
     # deck.show(pos=(0, 0))
-    deck.practice_recognition(8,9,0)
+    deck.practice_recognition(1,2,3)
