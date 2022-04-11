@@ -76,7 +76,7 @@ class Deck:
             if key == correct:
                 score += 1
             counter += 1
-            print( "Correct" if key==correct else "Wrong" ,score,'/',counter)
+            print( "Correct" if key==correct else "Wrong  " ,score,'/',counter)
             cv2.destroyAllWindows()
         return
 
